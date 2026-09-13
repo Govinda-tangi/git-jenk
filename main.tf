@@ -143,3 +143,21 @@ locals {
   access_log_bucket_name   = local.create_access_log_bucket ? try(coalesce(var.access_log_bucket_name, module.access_log_bucket_name.id), "") : var.access_log_bucket_name
   arn_format               = "arn:${data.aws_partition.current.partition}"
 }
+
+
+# 1. Define the provider and version requirements
+terraform {
+  required_version = ">= 1.2.0"
+  required_providers {
+    local = {
+      source  = "hashicorp/local"
+      version = "~> 2.0"
+    }
+  }
+}
+
+# 2. Configure the resource you want to deploy
+resource "local_file" "example" {
+  filename = "${path.module}/hello_world.txt"
+  content  = "Terraform code successfully added and applied!"
+}
